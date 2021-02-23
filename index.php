@@ -62,6 +62,43 @@
 // TODO Votre code ici.
 
 try {
-    ...
+    $server = 'localhost';
+    $db = 'table_test_php';
+    $user = 'root';
+    $pass = '';
+    $bdd = new PDO("mysql:host=$server;dbname=$db;charset=utf8", $user, $pass);
+    // set the PDO error mode to exception
+    $bdd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    //Pour créer une table dans une base de données.
+    $request = "CREATE TABLE utilisateur (
+            id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+            nom VARCHAR(30) NOT NULL,
+            prenom VARCHAR(30) NOT NULL,
+            email VARCHAR(50) NOT NULL,
+            pass VARCHAR(255) NOT NULL,
+            adresse VARCHAR(70) NOT NULL,
+            code_postal SMALLINT NOT NULL,
+            pays VARCHAR(150) NOT NULL,
+            date_join DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+            UNIQUE(email)
+        )";
+
+    $bdd->exec($request);
+
+    //Pour créer une table dans une base de données.
+    $request = "CREATE TABLE produit (
+        id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        titre VARCHAR(100) NOT NULL,
+        prix DOUBLE NOT NULL,
+        description_courte VARCHAR(255) NOT NULL,
+        description_longue TEXT NOT NULL
+    )";
+
+    $bdd->exec($request);
+
+    echo "La requête c'est bien déroulé.";
 }
-catch...
+catch (PDOException $exception) {
+    echo $exception->getMessage();
+}
